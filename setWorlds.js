@@ -1,9 +1,10 @@
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const sourceFolder = `C:\\Users\\${process.env.USER}\\AppData\\LocalLow\\IronGate\\Valheim\\worlds_local`;
-const repoFolder = `${process.env.REPO_FOLDER}\\worlds_local`;
+const repoFolder = `./worlds_local`;
 
 function copyFolderRecursiveSync(source, destination) {
   if (!fs.existsSync(destination)) {
@@ -23,4 +24,5 @@ function copyFolderRecursiveSync(source, destination) {
   });
 }
 
+execSync(`git pull origin main`);
 copyFolderRecursiveSync(repoFolder, sourceFolder);

@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const sourceFolder = `C:\\Users\\${process.env.USER}\\AppData\\LocalLow\\IronGate\\Valheim\\worlds_local`;
-const repoFolder = `${process.env.REPO_FOLDER}\\worlds_local`;
+const repoFolder = `./worlds_local`;
 
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
@@ -70,4 +70,5 @@ function gitCommitAndPush(repoPath) {
 }
 
 copyFolderRecursiveSync(sourceFolder, repoFolder);
+execSync(`git pull origin main`);
 gitCommitAndPush(repoFolder);

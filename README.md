@@ -4,13 +4,12 @@ Mundo compartilhado criado pelos integrantes do servidor KK Enterprise.
 
 ## Variáveis de Ambiente
 
-Para rodar esse projeto, será necessário criar um arquivo .env e inserir os seguintes atributos:
+Para rodar esse projeto, será necessário criar um arquivo .env na raiz do projeto e inserir os seguintes atributos:
 
-| Atributo    | Valor                                           |
-| ----------- | ----------------------------------------------- |
-| USER        | Nome de usuário no caminho de pastas do windows |
-| REPO_FOLDER | Caminho da raiz do repositório clonado          |
-| AUTHOR      | Seu nome                                        |
+| Atributo | Valor                                           |
+| -------- | ----------------------------------------------- |
+| USER     | Nome de usuário no caminho de pastas do windows |
+| AUTHOR   | Seu nome                                        |
 
 ## Instalação
 
@@ -97,4 +96,5 @@ Para aplicar o backup nos arquivos locais de mundos do seu Valheim basta apenas 
 
 - [@jeanrabello](https://www.github.com/jeanrabello)
 - [@anthnydeleon](https://www.github.com/anthnydeleon)
+- [@m1tyu](https://www.github.com/m1tyu)
 - [@muri-brito](https://www.github.com/muri-brito)
