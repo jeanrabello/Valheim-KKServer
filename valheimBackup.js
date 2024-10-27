@@ -69,6 +69,6 @@ function gitCommitAndPush(repoPath) {
   }
 }
 
-execSync(`git pull origin main`);
 copyFolderRecursiveSync(sourceFolder, repoFolder);
+execSync(`git pull origin main`);
 gitCommitAndPush(repoFolder);
