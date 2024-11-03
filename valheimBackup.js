@@ -37,7 +37,7 @@ function copyFolderRecursiveSync(source, destination) {
     if (fs.lstatSync(sourcePath).isDirectory()) {
       copyFolderRecursiveSync(sourcePath, destPath);
     } else {
-      if (item.includes("KKServer")) {
+      if (item.includes("KKEnterprise")) {
         fs.copyFileSync(sourcePath, destPath);
         console.log(`Arquivo ${item} copiado para o repositório.`);
       }
