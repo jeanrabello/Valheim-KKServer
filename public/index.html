@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backup do Mundo · Valheim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="fog" aria-hidden="true"></div>
+
+    <header class="masthead">
+      <div class="mark" aria-hidden="true">ᛒ</div>
+      <div class="masthead-text">
+        <h1>Backup do Mundo</h1>
+        <p class="sub">Guarde e restaure o mundo compartilhado do servidor</p>
+      </div>
+      <div class="world-tag" id="worldTag" title="Mundo configurado">
+        <span class="world-tag-label">mundo</span>
+        <span class="world-tag-name" id="worldTagName">—</span>
+      </div>
+    </header>
+
+    <div class="runes" aria-hidden="true">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ</div>
+
+    <main>
+      <!-- CONFIGURAÇÃO -->
+      <section class="tablet config" id="configTablet">
+        <div class="tablet-head">
+          <h2>Configuração</h2>
+          <button class="ghost" id="toggleConfig" aria-expanded="true">recolher</button>
+        </div>
+        <div class="tablet-body" id="configBody">
+          <div class="field">
+            <label for="worldName">Nome do mundo</label>
+            <input id="worldName" type="text" placeholder="ex.: KKEnterprise" spellcheck="false" />
+            <small>Define quais arquivos entram no backup. É o valor de <code>WORLD_NAME</code>.</small>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="windowsUser">Usuário do Windows</label>
+              <input id="windowsUser" type="text" placeholder="ex.: jean" spellcheck="false" />
+              <small>Usado para achar a pasta de mundos do Valheim.</small>
+            </div>
+            <div class="field">
+              <label for="author">Seu nome</label>
+              <input id="author" type="text" placeholder="assina o commit" spellcheck="false" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="sourcePath">Caminho da pasta de mundos <span class="opt">(opcional)</span></label>
+            <input id="sourcePath" type="text" spellcheck="false"
+              placeholder="deixe em branco para usar o caminho padrão do Valheim" />
+            <small id="pathHint">Preencha só se o Valheim estiver instalado em um lugar diferente.</small>
+          </div>
+
+          <div class="toggles">
+            <label class="toggle">
+              <input type="checkbox" id="includeAutoBackups" />
+              <span>Incluir backups automáticos do jogo</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="includeTexCache" />
+              <span>Incluir cache do mapa</span>
+            </label>
+          </div>
+
+          <div class="tablet-actions">
+            <button class="stone" id="saveConfig">Salvar configuração</button>
+            <span class="save-note" id="saveNote"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- AÇÕES -->
+      <section class="actions">
+        <article class="tablet action backup">
+          <div class="action-glyph" aria-hidden="true">▲</div>
+          <h3>Fazer backup</h3>
+          <p class="dir">seu jogo &nbsp;→&nbsp; repositório</p>
+          <p class="desc">
+            Copia o mundo dos arquivos locais do Valheim e envia para o repositório
+            compartilhado.
+          </p>
+          <button class="stone primary" id="btnBackup" data-task="backup">Fazer backup</button>
+        </article>
+
+        <article class="tablet action restore">
+          <div class="action-glyph" aria-hidden="true">▼</div>
+          <h3>Restaurar mundo</h3>
+          <p class="dir">repositório &nbsp;→&nbsp; seu jogo</p>
+          <p class="desc">
+            Baixa a versão mais recente do repositório e substitui o mundo nos seus
+            arquivos locais do Valheim.
+          </p>
+          <button class="stone frost" id="btnRestore" data-task="restore">Restaurar mundo</button>
+        </article>
+      </section>
+
+      <!-- REGISTRO / LOG -->
+      <section class="tablet console" id="consoleTablet">
+        <div class="tablet-head">
+          <h2>Registro</h2>
+          <div class="console-status" id="consoleStatus">ocioso</div>
+        </div>
+        <div class="log" id="log" role="log" aria-live="polite">
+          <div class="log-empty" id="logEmpty">
+            Nenhuma ação executada ainda. Escolha <em>Fazer backup</em> ou
+            <em>Restaurar mundo</em> acima.
+          </div>
+        </div>
+      </section>
+
+      <!-- INVENTÁRIO -->
+      <section class="tablet inventory" id="inventoryTablet">
+        <div class="tablet-head">
+          <h2>Arquivos do mundo</h2>
+          <button class="ghost" id="refreshInventory">atualizar</button>
+        </div>
+        <div class="inv-grid">
+          <div class="inv-col">
+            <div class="inv-col-head">
+              <span>No repositório</span>
+              <span class="inv-count" id="repoCount">—</span>
+            </div>
+            <ul class="inv-list" id="repoList"></ul>
+          </div>
+          <div class="inv-col">
+            <div class="inv-col-head">
+              <span>Nos seus arquivos locais</span>
+              <span class="inv-count" id="localCount">—</span>
+            </div>
+            <ul class="inv-list" id="localList"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span id="footBrand">Painel local · roda na sua máquina</span>
+    </footer>
+
+    <!-- confirmação de restauração -->
+    <div class="scrim" id="scrim" hidden>
+      <div class="dialog tablet" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+        <h3 id="dlgTitle">Restaurar sobrescreve o mundo local</h3>
+        <p>
+          Os arquivos do mundo <strong id="dlgWorld">—</strong> na sua pasta do Valheim
+          serão substituídos pela versão do repositório. Feche o Valheim antes de continuar.
+        </p>
+        <div class="dialog-actions">
+          <button class="ghost" id="dlgCancel">Cancelar</button>
+          <button class="stone frost" id="dlgConfirm">Restaurar mesmo assim</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,10 +1,26 @@
 {
-  "version": "1.0.0",
+  "name": "valheim-backup-ui",
+  "version": "2.0.0",
+  "description": "Painel local para backup e restauração do mundo compartilhado do Valheim.",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "backup": "node backup-cli.js",
+    "restore": "node restore-cli.js",
+    "build": "pkg . --targets node18-win-x64 --output dist/Valheim-Backup.exe"
+  },
   "engines": {
-    "node": "20.17.0",
-    "vscode": "^1.22.0"
+    "node": ">=18"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "assets": ["public/**/*"],
+    "scripts": ["lib/**/*.js"]
   }
 }
