@@ -3,8 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
-const sourceFolder = `C:\\Users\\${process.env.USER}\\AppData\\LocalLow\\IronGate\\Valheim\\worlds_local`;
-const repoFolder = `./worlds_local`;
+const worldsRoot = `C:\\Users\\${process.env.USER}\\AppData\\LocalLow\\IronGate\\Valheim\\worlds_local`;
+const sourceFolder = path.join(worldsRoot, process.env.WORLD_NAME);
+const repoFolder = path.join("./worlds_local", process.env.WORLD_NAME);
 
 function copyFolderRecursiveSync(source, destination) {
   if (!fs.existsSync(destination)) {
@@ -19,10 +20,17 @@ function copyFolderRecursiveSync(source, destination) {
       copyFolderRecursiveSync(sourcePath, destPath);
     } else {
       fs.copyFileSync(sourcePath, destPath);
-      console.log(`Arquivo ${item} copiado para o repositório.`);
+      console.log(`Arquivo ${item} copiado para o mundo local.`);
     }
   });
 }
 
 execSync(`git pull origin main`);
+
+if (!fs.existsSync(repoFolder)) {
+  console.error(`Mundo não encontrado no repositório: ${repoFolder}`);
+  console.error("Confira o WORLD_NAME no .env.");
+  process.exit(1);
+}
+
 copyFolderRecursiveSync(repoFolder, sourceFolder);
